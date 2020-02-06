@@ -11,25 +11,18 @@ public class SegundClase {
     {
         int N;//filas
         int M; //Columnas
-        int f;
-        int c;
-        int inicio;
-        int matriz [][];
-        
-        f=0;
-        c=0;
+        int inicio; //Siempre iniciamos a la derecha por tanto el valor sera 1
+
         inicio =1;
-        
-        
-        
-        for (int i =0; i<casos; i++)
+                        
+        for (int i =0; i<casos; i++) //Repetimos tanos casos sean
         {
-            N= parametros [i][0];
-            M= parametros [i][1];
-            matriz = new int [N][M];
-            inicio =Recorrido(N,M,inicio, matriz,f, c);
+            N= parametros [i][0]; //Extraemos las filas
+            M= parametros [i][1]; //Exteaemos las columnas
+            inicio =Derecha (inicio,N,M); //Iniciamos en la derecha siempre asi que llamaos al metodo Derecha()
+                                          //Nos retornara un int del 1 al 4 
             
-            switch (inicio)
+            switch (inicio) //Con base a ese int se determinara a que direccion nos quedamos mirando
             {
                 case 1:
                     System.out.println("R");
@@ -41,11 +34,11 @@ public class SegundClase {
                 break;
 
                 case 3:
-                   System.out.println("D");
+                   System.out.println("U");
                 break;
 
                 case 4:
-                    System.out.println("U");
+                    System.out.println("D");
                 break;
         
             }
@@ -54,174 +47,113 @@ public class SegundClase {
         
     }
     
-    public int Recorrido (int N, int M, int inicio, int [][] matriz,int f, int c)
+    
+    public int Derecha (int inicio, int N, int M)
     {
-        int a;
-        int b;
-        int comodin;
-        int pos;
-        int [][] ocupado;
+        int a,b, posicion;
+        a=N;
+        b=M;
+        posicion= inicio;
         
-        ocupado= matriz;
-        
-        pos=inicio;
-        
-        switch(pos)
+        a= a-1; //Le restamos una fila ya que nos moveremos en filas ya que nos toca ir a la derecha
+        if (a>0) 
         {
-            case 1:
-                
-                
-                comodin = 0;
-                a=f;
-                pos=4;
-                for (b=c;b<N;b++)
-                {
-                    
-                    comodin = b;
-                    if (ocupado[a][b] ==1)
-                    {
-                        pos=Recorrido(N,M,pos, ocupado,a+1, b);
-                        
-                        break;
-                    }
-                    
-                    if (ocupado[a][b] !=1)
-                    {
-                        ocupado[a][b]=1;  
-                        
-                    }
-                    
-                    
-                }
-                if ((a+1)<N)
-                {
-                    if (ocupado[a+1][comodin] !=1)
-                    {
-                        pos=Recorrido(N,M,pos, ocupado,a+1, comodin);
-                        
-                        
-                    }
-                }
-                
             
-            break;
-            
-            case 2:
-                
-                comodin = 0;
-                a=f;
-                pos=3;
-                for (b=c;b>-1;b--)
-                {
-                    comodin = b;
-                    if (ocupado[a][b] ==1)
-                    {
-                        pos=Recorrido(N,M,pos, ocupado,a-1, b);
-                        
-                        break;
-                    }
-                    
-                    if (ocupado[a][b] !=1)
-                    {
-                        ocupado[a][b]=1;  
-                        
-                    }
-                    
-                    
-                }
-                if ((a-1)>-1)
-                {
-                    if (ocupado[a-1][comodin] !=1)
-                    {
-                       pos=Recorrido(N,M,pos, ocupado,a-1, comodin);
-                        
-                        
-                    }
-                }
-                
-                
-            
-            break;
-            
-            
-            case 3:
-                
-                comodin = 0;
-                b=c;
-                pos=1;
-                   
-                for (a=f;a>-1;a--)
-                {
-                    comodin = a;
-                    if (ocupado[a][b] ==1)
-                    {
-                        pos=Recorrido(N,M,pos, ocupado,a, b+1);
-                        
-                        break;
-                    }
-                    
-                    if (ocupado[a][b] !=1)
-                    {
-                        ocupado[a][b]=1;  
-                        
-                    }                   
-                    
-                }
-                if ((b+1)<M)
-                {
-                    if (ocupado[comodin][b+1] !=1)
-                    {
-                       pos=Recorrido(N,M,pos, ocupado,comodin, b+1);
-                        
-                        
-                    }
-                }
-                
- 
-            break;
-            
-            
-            case 4:
-                b=c;
-                pos=2;
-                comodin =0;
-                
-                for (a=f;a<M;a++)
-                {
-                    comodin = a;
-                    if (ocupado[a][b] ==1)
-                    {
-                        pos=Recorrido(N,M,pos, ocupado,comodin, b-1);
-                        
-                        break;
-                    }
-                    
-                    if (ocupado[a][b] !=1)
-                    {
-                        ocupado[a][b]=1;  
-                        
-                    }                   
-                    
-                }
-                if ((b+1)<M)
-                {
-                    if (ocupado[comodin][b-1] !=1)
-                    {
-                       pos=Recorrido(N,M,pos, ocupado,a, b-1);
-                        
-                        
-                    }
-                }
-                
-                
-               
-            
-            break;
-                
+            posicion = Abajo(posicion, a, b); //Si a es mayor que 0 significa que aun queda una fila y por tanto
+                                              //una columna, ya hemos recorrido nuestra fila ahora queda doblar a la derecha
+                                              //lo que nos conduce a ir abajo por lo que llamamos al metodo Abajo
         }
-       
+        else
+        {
+            posicion = 1;//Si es a es 0 ya no quedan filas ni columnas por lo que quedamos mirando
+                        //a la direccion actual
+        }
         
-        return pos;
+        
+        
+        return posicion;
     }
+    
+    public int Izquierda (int inicio, int N, int M) 
+    {
+        
+        int a,b, posicion;
+        a=N;
+        b=M;
+        posicion= inicio;
+        
+        a= a-1;//Le restamos una fila ya que nos moveremos en filas ya que nos toca ir a la izquieda
+        if (a>0)
+        {
+            
+            posicion = Arriba(posicion, a, b);//Si a es mayor que 0 significa que aun queda una fila y por tanto
+                                              //una columna, ya hemos recorrido nuestra fila ahora queda doblar a la derecha
+                                              //lo que nos conduce a ir arriba por lo que llamamos al metodo Arriba
+        }
+        else
+        {
+            posicion = 2;//Si es a es 0 ya no quedan filas ni columnas por lo que quedamos mirando
+                        //a la direccion actual
+        }
+        
+        
+        
+        return posicion;
+    }
+    
+    public int Arriba (int inicio, int N, int M)
+    {
+        int a,b, posicion;
+        a=N;
+        b=M;
+        posicion= inicio; 
+        b= b-1; //Le restamos una columna ya que nos moveremos en columnas ya que nos toca ir a arriba
+        if (b>0)
+        {
+            
+            posicion = Derecha(posicion, a, b);//Si a es mayor que 0 significa que aun queda una columna y por tanto
+                                              //una fila, ya hemos recorrido nuestra columna ahora queda doblar a la derecha
+                                              //lo que nos conduce a ir a la derecha por lo que llamamos al metodo Derecha
+        }
+        else
+        {
+            posicion = 3;//Si es a es 0 ya no quedan filas ni columnas por lo que quedamos mirando
+                        //a la direccion actual
+        }
+        
+        
+        
+        return posicion;
+    }
+    
+    
+    public int Abajo (int inicio, int N, int M)
+    {
+        int a,b, posicion;
+        a=N;
+        b=M;   
+        posicion= inicio;
+        
+        b= b-1;//Le restamos una columna ya que nos moveremos en columnas ya que nos toca ir a abajo
+        
+        if (b>0)
+        {
+            
+            posicion = Izquierda(posicion, a, b);//Si a es mayor que 0 significa que aun queda una columna y por tanto
+                                              //una fila, ya hemos recorrido nuestra columna ahora queda doblar a la derecha
+                                              //lo que nos conduce a ir a la izquierda por lo que llamamos al metodo Izquierda
+        }
+        else
+        {
+            posicion = 4;//Si es a es 0 ya no quedan filas ni columnas por lo que quedamos mirando
+                        //a la direccion actual
+        }
+        
+        
+        
+        return posicion;
+    }
+    
+   
     
 }
